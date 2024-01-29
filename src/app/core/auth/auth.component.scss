@@ -1,0 +1,50 @@
+.card {
+  max-width: 400px;
+  margin: 36px auto;
+}
+
+.card__header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 27px;
+}
+
+.card__content {
+  margin-bottom: 46px;
+}
+
+.card__field {
+  width: 100%;
+}
+
+.card__content-link {
+  text-align: right;
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.card__footer {
+  padding: 0 16px 16px;
+  text-align: center;
+}
+
+.card__footer-button {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.card__footer-text {
+  margin: 0 0 7px;
+}
+
+.card__footer-link {
+  &:hover {
+    text-decoration: none;
+  }
+}
