@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -13,6 +13,8 @@ import {
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
+import { UserService } from '../services/user.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface AuthForm {
   email: FormControl<string>;
@@ -41,9 +43,15 @@ interface AuthForm {
 export class AuthComponent implements OnInit {
   authType = '';
   title = '';
+  error: string = '';
+  isSubmitting = false;
   authForm: FormGroup<AuthForm>;
+  destroyRef = inject(DestroyRef);
 
-  constructor(private readonly route: ActivatedRoute) {
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly userService: UserService,
+  ) {
     this.authForm = new FormGroup<AuthForm>({
       email: new FormControl('', {
         validators: [Validators.required],
@@ -79,6 +87,24 @@ export class AuthComponent implements OnInit {
   }
 
   submitAuthForm() {
-    console.log(this.authForm);
+    this.isSubmitting = true;
+    this.error = '';
+
+    this.userService
+      .login(
+        this.authForm.value as {
+          email: string;
+          password: string;
+          rememberMe: boolean;
+        },
+      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {},
+        error: (err) => {
+          this.error = err.error.message;
+          this.isSubmitting = false;
+        },
+      });
   }
 }

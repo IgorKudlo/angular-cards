@@ -1,6 +1,7 @@
 <form [formGroup]="authForm" (ngSubmit)="submitAuthForm()">
   <mat-card class="card">
     <mat-card-header class="card__header">
+      <div class="card__error" *ngIf="error">{{ error }}</div>
       <mat-card-title>{{ title }}</mat-card-title>
     </mat-card-header>
     <mat-card-content class="card__content">
@@ -32,7 +33,13 @@
         <a [routerLink]="['/register']" class="card__footer-link">Sign Up</a>
       </ng-container>
       <ng-container *ngIf="authType === 'register'">
-        <button type="submit" mat-flat-button color="accent" class="card__footer-button">
+        <button
+          type="submit"
+          mat-flat-button
+          color="accent"
+          class="card__footer-button"
+          [disabled]="isSubmitting"
+        >
           Sign Up
         </button>
         <p class="card__footer-text">Already have an account?</p>

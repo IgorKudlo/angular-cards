@@ -5,8 +5,14 @@
 
 .card__header {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   margin-bottom: 27px;
+}
+
+.card__error {
+  color: red;
 }
 
 .card__content {
